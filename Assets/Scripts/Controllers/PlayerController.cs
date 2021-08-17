@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -41,17 +42,31 @@ public class PlayerController : MonoBehaviour
     void UpdateMoving()
     {
         Vector3 direction = _destination - transform.position;
-        if (direction.magnitude < 0.0001f)
+        if (direction.magnitude < 0.1f)
         {
             _state = PlayerState.Idle;
         }
         else
         {
+            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
+
             // 이동 거리는 반드시 방향&크기 벡터(direction)의 크기보다 작아야 한다.
             // 그렇지 않으면, 목적지 바로 부근에서 마구마구 왔다갔다 한다.
             float moveDistance = Mathf.Clamp(_speed * Time.deltaTime, 0, direction.magnitude);
 
-            transform.position += direction.normalized * moveDistance;
+            // nma.CalculatePath
+            // 크기까지 포함하는 방향 벡터.
+            nma.Move(direction.normalized * moveDistance);
+
+            Debug.DrawRay(transform.position, direction.normalized, Color.green);
+            // 대충 배꼽 위치에서 쏘도록 설정. ( Vector3.up * 0.5f )
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, direction, 1.0f, LayerMask.GetMask("Block")))
+            {
+                _state = PlayerState.Idle;
+                return;
+            }
+
+            /*transform.position += direction.normalized * moveDistance;*/
             transform.rotation = Quaternion.Slerp(
                    transform.rotation
                    , Quaternion.LookRotation(direction)
@@ -144,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
+        /*Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);*/
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
