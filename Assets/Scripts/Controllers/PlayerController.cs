@@ -5,18 +5,12 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    float _speed = 10.0f;
-
+    PlayerStat _stat;
     Vector3 _destination;
     
     void Start()
     {
-        /*        // 어디선가 구독신청을 하고 있을 경우 제거.
-                Managers.Input.KeyAction -= OnKeyboard;
-
-                // 제거 후 추가. ( 중복 실행 방지 )
-                Managers.Input.KeyAction += OnKeyboard;*/
+        _stat = gameObject.GetComponent<PlayerStat>();
 
         Managers.Input.MouseAction -= OnMouseClicked;
         Managers.Input.MouseAction += OnMouseClicked;
@@ -27,9 +21,7 @@ public class PlayerController : MonoBehaviour
         Die
         , Moving
         , Idle
-        /*, Channeling
-        , Jumping
-        , Falling*/
+        , Skill
     }
 
     PlayerState _state = PlayerState.Idle;
@@ -52,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
             // 이동 거리는 반드시 방향&크기 벡터(direction)의 크기보다 작아야 한다.
             // 그렇지 않으면, 목적지 바로 부근에서 마구마구 왔다갔다 한다.
-            float moveDistance = Mathf.Clamp(_speed * Time.deltaTime, 0, direction.magnitude);
+            float moveDistance = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, direction.magnitude);
 
             // nma.CalculatePath
             // 크기까지 포함하는 방향 벡터.
@@ -77,7 +69,7 @@ public class PlayerController : MonoBehaviour
         // animation
         Animator animator = GetComponent<Animator>();
         // 현재 게임 상태에 대한 정보를 전달.
-        animator.SetFloat("speed", _speed);
+        animator.SetFloat("speed", _stat.MoveSpeed);
     }
 
      void UpdateIdle()
@@ -106,51 +98,53 @@ public class PlayerController : MonoBehaviour
     }
 
     #region not use
-/*    void OnKeyboard()
-    {
-        if (Input.GetKey(KeyCode.W))
+    /*    void OnKeyboard()
         {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation
-                , Quaternion.LookRotation(Vector3.forward)
-                , 0.2f
-            );
-            transform.position += Vector3.forward * Time.deltaTime * _speed;
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation
+                    , Quaternion.LookRotation(Vector3.forward)
+                    , 0.2f
+                );
+                transform.position += Vector3.forward * Time.deltaTime * _speed;
+            }
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation
-                , Quaternion.LookRotation(Vector3.back)
-                , 0.2f
-            );
-            transform.position += Vector3.back * Time.deltaTime * _speed;
-        }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation
+                    , Quaternion.LookRotation(Vector3.back)
+                    , 0.2f
+                );
+                transform.position += Vector3.back * Time.deltaTime * _speed;
+            }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation
-                , Quaternion.LookRotation(Vector3.left)
-                , 0.2f
-            );
-            transform.position += Vector3.left * Time.deltaTime * _speed;
-        }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation
+                    , Quaternion.LookRotation(Vector3.left)
+                    , 0.2f
+                );
+                transform.position += Vector3.left * Time.deltaTime * _speed;
+            }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation
-                , Quaternion.LookRotation(Vector3.right)
-                , 0.2f
-            );
-            transform.position += Vector3.right * Time.deltaTime * _speed;
-        }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation
+                    , Quaternion.LookRotation(Vector3.right)
+                    , 0.2f
+                );
+                transform.position += Vector3.right * Time.deltaTime * _speed;
+            }
 
-        _moveToDestination = false;
-    }*/
+            _moveToDestination = false;
+        }*/
     #endregion
+
+    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
 
     void OnMouseClicked(Define.MouseEvent evt)
     {
@@ -158,14 +152,22 @@ public class PlayerController : MonoBehaviour
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
         /*Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);*/
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+        if (Physics.Raycast(ray, out hit, 100.0f, _mask))
         {
             _destination = hit.point;
             _state = PlayerState.Moving;
+
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+            {
+                Debug.Log("Monster Click");
+            }
+            else
+            {
+                Debug.Log("Ground Click");
+            }
         }
     }
 }

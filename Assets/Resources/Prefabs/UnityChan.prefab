@@ -5817,6 +5817,7 @@ GameObject:
   - component: {fileID: 6794908331701482331}
   - component: {fileID: 2788110251155889666}
   - component: {fileID: 6736872922351360998}
+  - component: {fileID: 221832574814161791}
   - component: {fileID: 3290115487905972403}
   - component: {fileID: 3290115487905972402}
   - component: {fileID: -1046877564174310292}
@@ -5853,7 +5854,7 @@ Animator:
   m_GameObject: {fileID: 6794908331710988765}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
-  m_Controller: {fileID: 9100000, guid: dc0c479c031dd6048a5d64c449b67eb6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 49c4f504f2b6b554cad6e62144d10874, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -5888,6 +5889,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsing: 0
+--- !u!114 &221832574814161791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794908331710988765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bdb2149f3f7d68488449fdd716014ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 0
+  _hp: 0
+  _maxHp: 0
+  _attack: 0
+  _defense: 0
+  _moveSpeed: 0
+  _exp: 0
+  _gold: 0
 --- !u!54 &3290115487905972403
 Rigidbody:
   m_ObjectHideFlags: 0

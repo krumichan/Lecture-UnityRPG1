@@ -81,21 +81,22 @@
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\UI_Inventory.cs" />
     <Compile Include="Assets\Scripts\Managers\PoolManager.cs" />
+    <Compile Include="Assets\Scripts\Contents\Stat.cs" />
+    <Compile Include="Assets\Scripts\Contents\PlayerStat.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_fuku.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\Town\Readme.txt" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_akarami_blend.shader" />
-     <None Include="Assets\Resources\Art\Knight\Shader\pbrDoublesided.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hair_ds.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hada.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_fuku_ds.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_eyelash_blend.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_akarami_blend.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_hair_ds.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_hada.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_fuku_ds.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_eyelash_blend.shader" />
      <None Include="Assets\Resources\Sounds\UnityChan\unity-chan_voice_list.txt" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hada_blend.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_eye.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hair.shader" />
-     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_eye_blend.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_hada_blend.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_eye.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_hair.shader" />
+     <None Include="Assets\Resources\Art\UnityChan\Shaders\Unitychan_chara_eye_blend.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.4f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
