@@ -7,9 +7,24 @@ public class PlayerController : MonoBehaviour
 {
     PlayerStat _stat;
     Vector3 _destination;
+
+    Texture2D _attackIcon;
+    Texture2D _handIcon;
+
+    enum CursorType
+    {
+        None
+        , Hand
+        , Attack
+    }
+
+    CursorType _cursorType = CursorType.None;
     
     void Start()
     {
+        _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Attack");
+        _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Hand");
+
         _stat = gameObject.GetComponent<PlayerStat>();
 
         Managers.Input.MouseAction -= OnMouseClicked;
@@ -81,6 +96,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateMouseCursor();
+
         switch (_state)
         {
             case PlayerState.Die:
@@ -94,6 +111,32 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Idle:
                 UpdateIdle();
                 break;
+        }
+    }
+
+    void UpdateMouseCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100.0f, _mask))
+        {
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+            {
+                if (_cursorType != CursorType.Attack)
+                {
+                    Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 5, 0), CursorMode.Auto); // 1번째 인수 = 이미지에서 기준(앵커)이 되는 점.
+                    _cursorType = CursorType.Attack;
+                }
+            }
+            else
+            {
+                if (_cursorType != CursorType.Hand)
+                {
+                    Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3, 0), CursorMode.Auto);
+                    _cursorType = CursorType.Hand;
+                }
+            }
         }
     }
 
