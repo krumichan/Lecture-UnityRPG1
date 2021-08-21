@@ -13,9 +13,14 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     GameObject _player = null;
 
+    public void SetPlayer(GameObject player)
+    {
+        _player = player;
+    }
+
     void Start()
     {
-            
+
     }
 
     void LateUpdate()
@@ -23,6 +28,11 @@ public class CameraController : MonoBehaviour
         if (_mode == Define.CameraMode.QuaterView)
         {
             RaycastHit hit;
+
+            if (_player.IsValid() == false)
+            {
+                return;
+            }
             
             // 카메라와 플레이어 사이에 벽이 있을 경우.
             if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
