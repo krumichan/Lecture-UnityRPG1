@@ -33,9 +33,10 @@ public class CameraController : MonoBehaviour
             {
                 return;
             }
-            
+
             // 카메라와 플레이어 사이에 벽이 있을 경우.
-            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
+            int blockLayer = 1 << (int)Define.Layer.Block;
+            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, blockLayer))
             {
                 // 크기&방향 벡터에서 크기만 추출하여 살짝 앞으로 당김.
                 float distance = (hit.point - _player.transform.position).magnitude * 0.8f;

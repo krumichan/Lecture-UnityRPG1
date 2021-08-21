@@ -9,18 +9,65 @@ public class PlayerStat : Stat
     [SerializeField]
     protected int _gold;
 
-    public int Exp { get { return _exp; } set { _exp = value; } }
+    public int Exp {
+        get { return _exp; }
+        set
+        {
+            _exp = value;
+
+            // Level Up 체크.
+            int level = Level;
+            while (true)
+            {
+                Data.Stat stat;
+                if (Managers.Data.StatDict.TryGetValue(level + 1, out stat) == false)
+                {
+                    break;
+                }
+
+                if (_exp < stat.totalExp)
+                {
+                    break;
+                }
+
+                level++;
+                Debug.Log("Level Up!");
+            }
+
+            // Level에 변화가 일어남.
+            if (level != Level)
+            {
+                Level = level;
+                SetStat(Level);
+            }
+        }
+    }
+
     public int Gold { get { return _gold; } set { _gold = value; } }
 
     private void Start()
     {
         _level = 1;
-        _hp = 100;
-        _maxHp = 100;
-        _attack = 10;
+        _exp = 0;
         _defense = 5;
         _moveSpeed = 5.0f;
-        _exp = 0;
         _gold = 0;
+
+        SetStat(_level);
+    }
+
+    public void SetStat(int level)
+    {
+        Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
+        Data.Stat stat = dict[level];
+
+        _hp = stat.maxHp;
+        _maxHp = stat.maxHp;
+        _attack = stat.attack;
+    }
+
+    protected override void OnDead(Stat attacker)
+    {
+        Debug.Log("Player Dead");
     }
 }

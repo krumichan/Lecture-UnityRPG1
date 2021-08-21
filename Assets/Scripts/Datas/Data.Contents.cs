@@ -11,8 +11,9 @@ namespace Data
     {
         // public 때고 싶으면,  [SerializeField] 를 붙여준다.
         public int level;
-        public int hp;
+        public int maxHp;
         public int attack;
+        public int totalExp;
     }
 
     [Serializable]

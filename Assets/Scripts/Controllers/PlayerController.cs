@@ -84,16 +84,10 @@ public class PlayerController : BaseController
 
     void OnHitEvent()
     {
-        Debug.Log("On Hit Event");
-
         if (_lockTarget != null)
         {
             Stat targetStat = _lockTarget.GetComponent<Stat>();
-            PlayerStat myStat = gameObject.GetComponent<PlayerStat>();
-
-            int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
-
-            targetStat.Hp -= damage;
+            targetStat.OnAttacked(_stat);
         }
 
         if (_stopSkill)
