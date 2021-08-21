@@ -39,7 +39,9 @@ public class PlayerController : BaseController
             }
         }
 
+        // 이동
         Vector3 direction = _destination - transform.position;
+        direction.y = 0f; // 위로 기어 올라가는 것 막기.
         if (direction.magnitude < 0.1f)
         {
             State = Define.State.Idle;

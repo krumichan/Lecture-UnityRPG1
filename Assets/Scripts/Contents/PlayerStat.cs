@@ -31,7 +31,6 @@ public class PlayerStat : Stat
                 }
 
                 level++;
-                Debug.Log("Level Up!");
             }
 
             // Level에 변화가 일어남.
@@ -39,6 +38,7 @@ public class PlayerStat : Stat
             {
                 Level = level;
                 SetStat(Level);
+                Debug.Log("Level Up!");
             }
         }
     }
